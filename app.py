@@ -36,9 +36,9 @@ def initialize_rag_pipeline():
         embedding_function=embeddings,
     )
 
-    retriever = vectorstore.as_retriever(search_kwargs={"k": 10})
+    retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
     llm = ChatGoogleGenerativeAI(
-        model="gemini-3.6-flash",
+        model="gemini-2.5-flash-lite",
         temperature=0,
         max_retries=5,
     )
@@ -99,9 +99,10 @@ if st.button("Run financial audit", type="primary"):
             except Exception as error:
                 if "RateLimitError" in type(error).__name__ or "429" in str(error):
                     st.error(
-                        "API Rate Limit Exceeded: The free-tier Gemini API is currently "
-                        "cooling down from heavy traffic. Please wait about 60 seconds "
-                        "and try your query again."
+                        "API quota or rate limit exceeded. Please wait for the quota "
+                        "window to reset, or use a Google AI Studio key with available "
+                        "quota. The app now uses Gemini Flash-Lite and retrieves fewer "
+                        "chunks to reduce request usage."
                     )
                 else:
                     st.error(f"An unexpected system error occurred: {error}")
