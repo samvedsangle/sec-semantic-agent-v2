@@ -84,13 +84,24 @@ if st.button("Run financial audit", type="primary"):
     if not user_query.strip():
         st.warning("Enter a question before running the audit.")
     else:
-        with st.spinner("Analyzing retrieved filing evidence..."):
-            response = qa_chain.invoke({"query": user_query})
+        with st.spinner("Searching full filing and synthesizing response..."):
+            try:
+                response = qa_chain.invoke({"query": user_query})
 
-        st.subheader("Audit findings")
-        st.write(response["result"])
+                st.subheader("Audit response")
+                st.write(response["result"])
 
-        with st.expander("Retrieved source snippets"):
-            for index, document in enumerate(response["source_documents"], start=1):
-                st.markdown(f"**Source chunk {index}**")
-                st.text(document.page_content[:600] + "...")
+                with st.expander("Retrieved source snippets"):
+                    for index, document in enumerate(response["source_documents"]):
+                        st.markdown(f"**Source chunk {index + 1}:**")
+                        st.text(document.page_content[:600] + "...")
+
+            except Exception as error:
+                if "RateLimitError" in type(error).__name__ or "429" in str(error):
+                    st.error(
+                        "API Rate Limit Exceeded: The free-tier Gemini API is currently "
+                        "cooling down from heavy traffic. Please wait about 60 seconds "
+                        "and try your query again."
+                    )
+                else:
+                    st.error(f"An unexpected system error occurred: {error}")
