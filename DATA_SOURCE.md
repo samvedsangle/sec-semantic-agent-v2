@@ -36,7 +36,7 @@ The downloader writes the filing under `sec-edgar-filings/`. Because SEC access 
 
 The application reads the raw text filing, splits it into overlapping text chunks, embeds chunks locally with `all-MiniLM-L6-v2`, and stores the resulting Chroma vector index in `chroma_db_clean/`. The tracked index is a derived artifact, not an additional source of truth.
 
-The current Streamlit app retrieves up to 10 relevant chunks and sends the retrieved context to `gemini-3.6-flash` for synthesis. The raw filing remains available so answers can be checked against the original source material.
+The current Streamlit app retrieves up to 5 relevant chunks and sends the retrieved context to `gemini-3.5-flash-lite` for synthesis. The raw filing remains available so answers can be checked against the original source material.
 
 ## Repository data inventory
 

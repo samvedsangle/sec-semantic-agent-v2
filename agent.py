@@ -31,7 +31,11 @@ def run_sec_semantic_agent(query_text: str):
     )
     
     retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
-    llm = ChatGoogleGenerativeAI(model="gemini-3.6-flash", temperature=0)
+    llm = ChatGoogleGenerativeAI(
+        model="gemini-3.5-flash-lite",
+        temperature=0,
+        max_retries=5,
+    )
 
     # Use standard stable RetrievalQA chain
     qa_chain = RetrievalQA.from_chain_type(
