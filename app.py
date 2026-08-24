@@ -70,14 +70,16 @@ sample_queries = [
 ]
 st.markdown("**Sample audit queries**")
 query_columns = st.columns(2)
-selected_query = None
+if "audit_query" not in st.session_state:
+    st.session_state.audit_query = sample_queries[0]
+
 for index, sample_query in enumerate(sample_queries):
     if query_columns[index % 2].button(sample_query, key=f"sample_{index}"):
-        selected_query = sample_query
+        st.session_state.audit_query = sample_query
 
 user_query = st.text_input(
     "Ask a custom financial, balance sheet, or operational risk question",
-    value=selected_query or sample_queries[0],
+    key="audit_query",
 )
 
 if st.button("Run financial audit", type="primary"):
