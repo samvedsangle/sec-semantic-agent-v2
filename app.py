@@ -37,7 +37,11 @@ def initialize_rag_pipeline():
     )
 
     retriever = vectorstore.as_retriever(search_kwargs={"k": 10})
-    llm = ChatGoogleGenerativeAI(model="gemini-3.6-flash", temperature=0)
+    llm = ChatGoogleGenerativeAI(
+        model="gemini-3.6-flash",
+        temperature=0,
+        max_retries=5,
+    )
     return RetrievalQA.from_chain_type(
         llm=llm,
         chain_type="stuff",
