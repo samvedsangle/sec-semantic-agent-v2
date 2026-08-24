@@ -1,0 +1,14 @@
+streamlit
+sec-edgar-downloader
+langchain
+langchain-classic
+langchain-community
+langchain-core
+langchain-text-splitters
+langchain-huggingface
+langchain-google-genai
+sentence-transformers
+chromadb
+torch
+torchvision
+beautifulsoup4
